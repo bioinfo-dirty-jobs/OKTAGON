@@ -1,17 +1,6 @@
-#################################################################
-# Dockerfile
-#
-# Software:         vcf2maf
-# Software Version: 1.6.10
-# Description:      Convert a VCF into a MAF, where each variant is annotated 
-#                   to only one of all possible gene isoforms
-# Website:          https://github.com/mskcc/vcf2maf
-# Base Image:       ubuntu 14.04
-# Run Cmd:          docker run vcf2maf perl vcf2maf.pl --man
-#################################################################
-FROM ubuntu:14.04
+Bootstrap: docker
+From ubuntu:14.04
 
-MAINTAINER Adam Struck <strucka@ohsu.edu>
 
 USER root
 ENV VEP_PATH /root/vep
@@ -69,13 +58,9 @@ RUN cd $VEP_PATH && \
 # install vcf2maf
 WORKDIR /home/
 
-RUN curl -ksSL -o tmp.tar.gz https://github.com/mskcc/vcf2maf/archive/v1.6.16.tar.gz && \
+RUN curl -ksSL -o tmp.tar.gz https://github.com/mskcc/vcf2maf/archive/v1.6.10.tar.gz && \
     tar --strip-components 1 -zxf tmp.tar.gz && \
     rm tmp.tar.gz
-RUN locale-gen en_GB.UTF-8  
-ENV LANG en_GB.UTF-8  
-ENV LANGUAGE en_GB:en  
-ENV LC_ALL en_GB.UTF-8  
 
 CMD ["perl", "vcf2maf.pl", "--man"]
 
